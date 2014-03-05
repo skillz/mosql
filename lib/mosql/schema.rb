@@ -1,3 +1,5 @@
+require 'csv'
+
 module MoSQL
   class SchemaError < StandardError; end;
 
@@ -147,6 +149,18 @@ module MoSQL
       case source
       when "$timestamp"
         Sequel.function(:now)
+      when "$username"
+        number = true if Float(obj['username']) rescue false
+        return obj['username'].to_i if number
+        if @username_map.nil?
+          @username_map = {}
+          CSV.foreach(ENV['MOSQL_CSV_FILE_PATH']) do |row|
+            user_id = row[0]
+            username = row[1]
+            @username_map[username] = user_id
+          end
+        end
+        @username_map[obj['username']]
       else
         raise SchemaError.new("Unknown source: #{source}")
       end
