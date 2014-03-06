@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = MoSQL::VERSION
 
-  %w[sequel mongo bson_ext rake log4r json
+  %w[sequel mysql2 mongo bson_ext rake log4r json
      mongoriver].each { |dep| gem.add_runtime_dependency(dep) }
 
   gem.add_development_dependency "minitest"
