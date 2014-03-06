@@ -34,6 +34,10 @@ module MoSQL
     end
 
     def upsert_ns(ns, obj)
+      # hackey workaround for mosql tailing gameAccount.next_id in
+      # to the primary table
+      return if ns == 'skillz.gameAccount.next_id'
+
       h = transform_one_ns(ns, obj)
       upsert!(table_for_ns(ns), @schema.primary_sql_key_for_ns(ns), h)
     end
