@@ -93,8 +93,10 @@ module MoSQL
         start_ts = @mongo['local']['oplog.rs'].find_one({}, {:sort => [['$natural', -1]]})['ts']
       end
 
-      @mongo.database_names.each do |dbname|
-        next unless spec = @schema.find_db(dbname)
+      dbname = 'skillz'
+      #@mongo.database_names.each do |dbname|
+        #next unless spec = @schema.find_db(dbname)
+        spec = @schema.find_db(dbname)
         log.info("Importing for Mongo DB #{dbname}...")
         db = @mongo.db(dbname)
         db.collections.select { |c| spec.key?(c.name) }.each do |collection|
@@ -102,7 +104,7 @@ module MoSQL
           import_collection(ns, collection)
           exit(0) if @done
         end
-      end
+      #end
 
       tailer.write_timestamp(start_ts) unless options[:skip_tail]
     end
