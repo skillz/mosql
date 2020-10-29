@@ -30,7 +30,7 @@ GEM
       log4r
       mongo (>= 1.7)
     pg (0.14.1)
-    rake (10.1.0)
+    rake (13.0.1)
     sequel (3.44.0)
 
 PLATFORMS
